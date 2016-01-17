@@ -33,6 +33,7 @@ RUN easy_install protobuf
 RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev protobuf-compiler
 RUN apt-get install -y libjpeg-dev
 RUN apt-get install -y libjpeg62
+RUN apt-get install -y bc
 
 #Install atlas
 RUN apt-get install -y libatlas-base-dev
@@ -40,6 +41,7 @@ RUN apt-get install -y libatlas-base-dev
 # Install Caffe
 ADD caffe-master /caffe-master
 
+RUN rm ~/anaconda/lib/libm.*
 RUN cd /caffe-master && make && make distribute
 
 # Set caffe to be in the python path
