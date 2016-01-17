@@ -39,9 +39,14 @@ RUN apt-get install -y bc
 RUN apt-get install -y libatlas-base-dev
 
 # Install Caffe
-ADD caffe-master /caffe-master
+RUN git clone --depth 1 https://github.com/BVLC/caffe.git /caffe-master
+ADD caffe-master/Makefile.config /caffe-master/Makefile.config
 
 RUN rm ~/anaconda/lib/libm.*
+
+RUN git clone --depth 1 https://github.com/BVLC/caffe.git /caffe-master
+ADD caffe-master/Makefile.config /caffe-master/Makefile.config
+
 RUN cd /caffe-master && make && make distribute
 
 # Set caffe to be in the python path
@@ -58,6 +63,8 @@ RUN ldconfig
 RUN wget https://github.com/mathjax/MathJax/archive/v2.5-latest.zip -O /mathjax.zip
 RUN python -m IPython.external.mathjax /mathjax.zip
 
+# install google model
+RUN wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel -O /caffe-master/models/bvlc_googlenet/bvlc_googlenet.caffemodel
 
 # Copy the notebook into the container
 ADD dream.ipynb /notebooks/
