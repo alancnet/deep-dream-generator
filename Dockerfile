@@ -39,14 +39,9 @@ RUN apt-get install -y bc
 RUN apt-get install -y libatlas-base-dev
 
 # Install Caffe
-RUN git clone --depth 1 https://github.com/BVLC/caffe.git /caffe-master
-ADD caffe-master/Makefile.config /caffe-master/Makefile.config
-
 RUN rm ~/anaconda/lib/libm.*
-
 RUN git clone --depth 1 https://github.com/BVLC/caffe.git /caffe-master
 ADD caffe-master/Makefile.config /caffe-master/Makefile.config
-
 RUN cd /caffe-master && make && make distribute
 
 # Set caffe to be in the python path
@@ -72,5 +67,7 @@ ADD dream.ipynb /notebooks/
 ADD notebook.sh /
 
 RUN chmod u+x /notebook.sh
+
+VOLUME /src
 
 CMD ["/notebook.sh"]
